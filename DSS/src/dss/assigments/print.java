@@ -1,4 +1,4 @@
-package dss.first;
+package dss.assigments;
 
 public class print {
 	public static void main(String args[]) {

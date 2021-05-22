@@ -1,4 +1,4 @@
-package dss.first;
+package dss.assigments;
 import java.util.Scanner;
 import java.util.Random;
 
