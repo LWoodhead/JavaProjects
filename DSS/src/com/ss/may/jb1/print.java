@@ -1,4 +1,4 @@
-package dss.assigments;
+package com.ss.may.jb1;
 
 public class print {
 	public static void main(String args[]) {
