@@ -26,7 +26,7 @@ public class Numberguesser {
 		if(notFound) {
 			System.out.println("Better luck next time, the random number was " + target_num);
 		}
-
+		myObj = null;
 	}
 }
 
