@@ -16,8 +16,8 @@ public class ThreadDeadlock {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		DirectoryNames a = new DirectoryNames();
-		DirectoryNames b = new DirectoryNames();
+		final DirectoryNames a = new DirectoryNames();
+		final DirectoryNames b = new DirectoryNames();
 		Runnable threadA = new Runnable(){
 			Thread t = Thread.currentThread();
 			public void run(){

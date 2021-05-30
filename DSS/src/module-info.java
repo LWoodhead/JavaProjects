@@ -1,2 +1,2 @@
-module dss {
+interface dss {
 }

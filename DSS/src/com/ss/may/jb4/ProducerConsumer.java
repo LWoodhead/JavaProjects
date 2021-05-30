@@ -6,14 +6,18 @@ import java.util.concurrent.Semaphore;
 
 public class ProducerConsumer {
 	private static int production_target = 10;
+	public static Semaphore createdItems;
+	public static Semaphore spaceLeft;
+	public static Semaphore mutex;
+	public static Vector<Integer> buffer = new Vector<Integer>();
 	
 	public static void main(String args[]){
-		Vector<Integer> buffer = new Vector<Integer>();
-		Semaphore createdItems;
-		Semaphore spaceLeft;
-		Semaphore mutex;
+		buffer = new Vector<Integer>();
+//		final Semaphore createdItems;
+//		final Semaphore spaceLeft;
+//		final Semaphore mutex;
 		createdItems = new Semaphore(0);
-		spaceLeft = new Semaphore(10);
+		spaceLeft = new Semaphore(10);	
 		mutex = new Semaphore(1);
 		Runnable producer = new Runnable(){
 	
