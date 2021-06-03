@@ -28,7 +28,7 @@ public class FileTextAppend {
 		System.out.println("Please enter text to be appended");
 		String textToAppend = myObj.nextLine();
 		System.out.println(textToAppend);
-		try (FileWriter file = new FileWriter(path, StandardCharsets.UTF_8, true)){
+		try (FileWriter file = new FileWriter(path)){
 				file.append(textToAppend);
 				file.close();
 				// TODO Auto-generated catch block
