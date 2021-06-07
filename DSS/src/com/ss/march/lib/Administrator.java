@@ -182,9 +182,9 @@ public class Administrator {
 		LibraryGenresDAO genreDAO = new LibraryGenresDAO(); 
 		Scanner scan = new Scanner(System.in);
 		String genre,temp;
-		int genreId;
+		int genreId,bookId;
 		String[] params = new String[3];
-		System.out.println("1) Add\n2) Update\n3) Delete\n4)Read Genres");
+		System.out.println("1) Add\n2) Update\n3) Delete\n4) Read Genres\n5) Link Genre and Book");
 		try {
 			int input = Integer.parseInt(scan.nextLine());
 			switch(input) {
@@ -215,8 +215,14 @@ public class Administrator {
 						System.out.println(ge.toString());
 					}
 					break;
+				case 5:
+					System.out.println("Enter Genre ID");
+					genreId = Integer.parseInt(scan.nextLine());
+					System.out.println("Enter Book ID");
+					bookId = Integer.parseInt(scan.nextLine());
+					genreDAO.linkTables(bookId,genreId);
 				default:
-					System.out.println("Enter one through four");
+					System.out.println("Enter one through five");
 					break;
 			}
 		}catch(NumberFormatException ex) {
@@ -230,7 +236,7 @@ public class Administrator {
 		String name,phone,address;
 		int pubId;
 		String[] params = new String[3];
-		System.out.println("1) Add\n2) Update\n3) Delete\n4)Read Genres");
+		System.out.println("1) Add\n2) Update\n3) Delete\n4) Read Publishers");
 		try {
 			int input = Integer.parseInt(scan.nextLine());
 			switch(input) {
@@ -281,7 +287,7 @@ public class Administrator {
 		String name,address;
 		int branchId;
 		String[] params = new String[2];
-		System.out.println("1) Add\n2) Update\n3) Delete\n4)Read Branches");
+		System.out.println("1) Add\n2) Update\n3) Delete\n4) Read Branches");
 		try {
 			int input = Integer.parseInt(scan.nextLine());
 			switch(input) {
@@ -328,7 +334,7 @@ public class Administrator {
 		String name,address,phone;
 		int cardNo;
 		String[] params = new String[3];
-		System.out.println("1) Add\n2) Update\n3) Delete\n4)Read Borrowers");
+		System.out.println("1) Add\n2) Update\n3) Delete\n4) Read Borrowers");
 		try {
 			int input = Integer.parseInt(scan.nextLine());
 			switch(input) {

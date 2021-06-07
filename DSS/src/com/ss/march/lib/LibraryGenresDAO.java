@@ -71,5 +71,13 @@ public class LibraryGenresDAO implements LibraryDAO<LibraryGenres> {
 		pstmt.setInt(1, t.getGenreId());
 		pstmt.executeUpdate(); 
 	}
+	
+	//Add a book_genres entry with an existing book and genre Id
+	public void linkTables(int genreId,int bookId) throws ClassNotFoundException, SQLException {
+		PreparedStatement pstmt = getConnection().prepareStatement("insert into tbl_book_genres (genre_id,bookId,) values (?,?)");
+		pstmt.setInt(1, genreId);
+		pstmt.setInt(2, bookId);
+		pstmt.executeUpdate(); 
+	}
 
 }
