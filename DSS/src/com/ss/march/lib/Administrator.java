@@ -15,7 +15,6 @@ public class Administrator {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Administrator a = new Administrator();
 		a.adminMenuRunner();
 	}
@@ -79,6 +78,34 @@ public class Administrator {
 			if(nextMenu != -1) {
 				currentMenu = nextMenu;
 			}
+		}
+	}
+	public void authorBook(){
+		Scanner scan = new Scanner(System.in);
+		System.out.println("1) Add\n2) Update\n3) Delete\n4)Read Books and Authors");
+		try {
+			int input = Integer.parseInt(scan.nextLine());
+			switch(input) {
+				case 1:
+					System.out.println("Enter Book Title");
+					String title = scan.nextLine();
+					System.out.println("Enter Author");
+					int pubId = Integer.parseInt(scan.nextLine());
+					System.out.println("Enter Author");
+					String author = scan.nextLine();
+					
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				default:
+					break;
+			}
+		}catch(NumberFormatException ex) {
+			System.out.println("You must enter a number");
 		}
 	}
 	

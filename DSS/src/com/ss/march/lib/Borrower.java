@@ -1,5 +1,6 @@
 package com.ss.march.lib;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,20 +9,21 @@ public class Borrower {
 	
 	private int cardNumber;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		Borrower b = new Borrower();
 		b.borrowerMenuRunner();
+//		b.checkOutBook();
 		System.out.println("Cardnumber: " + b.cardNumber);
 	}
 	
-	public boolean readCardnumber() {
+	public boolean readCardnumber() throws ClassNotFoundException, SQLException {
 		System.out.println("Please enter a card number");
+		LibraryBorrowerDAO borrowerDAO = new LibraryBorrowerDAO();
 		try {
 			Scanner scan = new Scanner(System.in);
 			int input = Integer.parseInt(scan.nextLine());
-			//TODO compare card number to database and return if it matches
-			if(input == 123) {
+			if(borrowerDAO.checkCardno(input) == 1) {
 				cardNumber = input;
 				return true;
 			}else {
@@ -33,7 +35,7 @@ public class Borrower {
 		return false;
 	}
 	
-	public int borrowMenuOne() {
+	public int borrowMenuOne() throws ClassNotFoundException, SQLException {
 		System.out.println("1) Check out a book\n2) Return a Book\n3) Quit to previous");
 		Scanner scan = new Scanner(System.in);
 		int ret;
@@ -67,17 +69,16 @@ public class Borrower {
 		}
 		return -1;
 	}
-	public int checkOutBook() {
+	public int checkOutBook() throws ClassNotFoundException, SQLException {
 		try {
+			LibraryBranchDAO branchDAO = new LibraryBranchDAO();
+			LibraryBorrowerDAO borrowerDAO = new LibraryBorrowerDAO();
+			LibraryBookLoanDAO bookLoanDAO = new LibraryBookLoanDAO();
+			LibraryBookCopiesDAO bookCopiesDAO = new LibraryBookCopiesDAO();
 			Scanner scan = new Scanner(System.in);
 			int numBranches = 0;
-			List<String> branches = new ArrayList<>();
-			//Temp values
-			branches.add("University Library, Boston");
-			branches.add("State Library, New York");
-			branches.add("Federal Library, Washington DC");
-			//TODO retrieve branches from db and print them
-			for(String branch: branches) {
+			List<LibraryBranch> branches = branchDAO.getAll();
+			for(LibraryBranch branch: branches) {
 				numBranches++;
 				System.out.println(numBranches + ") " + branch);
 			}
@@ -87,21 +88,19 @@ public class Borrower {
 			if(branchChoice > 0 && branchChoice < numBranches+1) {
 				System.out.println("Chosen branch is " + branches.get(branchChoice-1));
 				int numBooks = 0;
-				List<String> books = new ArrayList<>();
-				//TODO retrieve list of books from db and print them
-				books.add("Lost Tribe by Sidney Sheldon");
-				books.add("The Haunting by Stepehen King");
-				books.add("Microtrends by Mark Penn");
-				for(String book: books) {
+				List<LibraryBookAuthorBranch> books = borrowerDAO.avaliableBooks(branches.get(branchChoice-1).getBranchId());
+				for(LibraryBookAuthorBranch book: books) {
 					numBooks++;
-					System.out.println(numBooks + ") " + book);
+					System.out.println(numBooks + ") " + book.getTitle() + ", " + book.getAuthorName());
 				}
 				System.out.println((numBooks + 1) + ") " + "Quit to cancel operation");
 				//Choose a book
 				int bookChoice = Integer.parseInt(scan.nextLine());
 				if(bookChoice > 0 && bookChoice < numBooks + 1) {
 					System.out.println("Checked book is " + books.get(bookChoice-1));
-					//TODO Then add entry into book_loans, date out should be today’s date, due date should be one week from today’s date.
+					LibraryBookLoan checkedBook = new LibraryBookLoan(books.get(bookChoice-1).getBookId(),books.get(bookChoice-1).getBranchId(),cardNumber,null,null,null);
+					bookLoanDAO.save(checkedBook);
+					bookCopiesDAO.subtractCopy(books.get(bookChoice-1).getBookId(),books.get(bookChoice-1).getBranchId());
 					return 1;
 				}else if(bookChoice == numBooks+1) {
 					System.out.println("Canceling Operation");
@@ -124,17 +123,15 @@ public class Borrower {
 		return -1;
 	}
 	
-	public int returnBook() {
+	public int returnBook() throws ClassNotFoundException, SQLException {
 		try {
+			LibraryBookLoanDAO bookLoanDAO = new LibraryBookLoanDAO();
+			LibraryBorrowerDAO borrowerDAO = new LibraryBorrowerDAO();
+			LibraryBookCopiesDAO bookCopiesDAO = new LibraryBookCopiesDAO();
 			Scanner scan = new Scanner(System.in);
 			int numBranches = 0;
-			List<String> branches = new ArrayList<>();
-			//Temp values
-			branches.add("University Library, Boston");
-			branches.add("State Library, New York");
-			branches.add("Federal Library, Washington DC");
-			//TODO retrieve branches that have a checked out book from the cardholder from db and print them
-			for(String branch: branches) {
+			List<LibraryBranch> branches = borrowerDAO.checkedOutBookBranches(cardNumber);
+			for(LibraryBranch branch: branches) {
 				numBranches++;
 				System.out.println(numBranches + ") " + branch);
 			}
@@ -144,14 +141,10 @@ public class Borrower {
 			if(branchChoice > 0 && branchChoice < numBranches+1) {
 				System.out.println("Chosen branch is " + branches.get(branchChoice-1));
 				int numBooks = 0;
-				List<String> books = new ArrayList<>();
-				//TODO retrieve list of books from db and print them if they are currently checked otu by the card holder
-				books.add("Lost Tribe by Sidney Sheldon");
-				books.add("The Haunting by Stepehen King");
-				books.add("Microtrends by Mark Penn");
-				for(String book: books) {
+				List<LibraryBookAuthorBranch> books = borrowerDAO.checkedOutBookFor(cardNumber); 
+				for(LibraryBookAuthorBranch book: books) {
 					numBooks++;
-					System.out.println(numBooks + ") " + book);
+					System.out.println(numBooks + ") " + book.getTitle() + ", " + book.getAuthorName());
 				}
 				System.out.println((numBooks + 1) + ") " + "Quit to cancel operation");
 				//Choose a book
@@ -159,6 +152,9 @@ public class Borrower {
 				if(bookChoice > 0 && bookChoice < numBooks + 1) {
 					System.out.println("Returned book is " + books.get(bookChoice-1));
 					//TODO Remove the book loan entry for that book at that branch
+					LibraryBookLoan returnedBook = new LibraryBookLoan(books.get(bookChoice-1).getBookId(),books.get(bookChoice-1).getBranchId(),cardNumber , null, null, null);
+					bookLoanDAO.returnBook(returnedBook);
+					bookCopiesDAO.addCopy(books.get(bookChoice-1).getBookId(),books.get(bookChoice-1).getBranchId());
 					return 1;
 					
 				}else if(bookChoice == numBooks+1) {
@@ -181,7 +177,7 @@ public class Borrower {
 		return -1;
 	}
 	
-	public void borrowerMenuRunner(){
+	public void borrowerMenuRunner() throws ClassNotFoundException, SQLException{
 		boolean validCardNumber = false;
 		while(!validCardNumber) {
 			validCardNumber = readCardnumber();

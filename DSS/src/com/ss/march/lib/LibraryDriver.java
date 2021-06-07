@@ -3,6 +3,7 @@
  */
 package com.ss.march.lib;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 /**
@@ -13,15 +14,17 @@ public class LibraryDriver {
 
 	/**
 	 * @param args
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		LibraryDriver menu = new LibraryDriver();
 		menu.mainMenu();
 
 	}
 
-	public void mainMenu() {
+	public void mainMenu() throws ClassNotFoundException, SQLException {
 		//Create admin, librarian and borrower objects
 		Administrator admin = new Administrator();
 		Librarian lib = new Librarian();

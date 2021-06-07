@@ -5,6 +5,7 @@ package com.ss.march.lib;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,15 +28,18 @@ public class DBConnection {
 		// TODO Auto-generated method stub
 		Class.forName(driver);
 		Connection conn = DriverManager.getConnection(url,username,password); 
-		Statement stmt = conn.createStatement();
-		String sql = "select * from tbl_library_branch where branchId = '1'";
-		ResultSet rs = stmt.executeQuery(sql);
+//		Statement stmt = conn.createStatement();
+		PreparedStatement pstmt = conn.prepareStatement("select * from tbl_library_branch where branchId = ?"); 
+//		String sql = "select * from tbl_library_branch where branchId = '1'";
+//		ResultSet rs = stmt.executeQuery(sql);
+		pstmt.setString(1, "5");
+		ResultSet rs = pstmt.executeQuery();
 		while(rs.next()) {
 			System.out.println(rs.getString("branchId"));
 			System.out.println(rs.getString("branchName"));
 			System.out.println(rs.getString("branchAddress"));
 		}
 	}
-
+	
 }
 //branchName branchAddress
