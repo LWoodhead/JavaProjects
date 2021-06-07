@@ -30,7 +30,6 @@ public class Administrator {
 			int input = Integer.parseInt(scan.nextLine());
 			switch(input) {
 				case 1:
-					//TODO implement DOA and admin function call to complete
 					authorBook();
 					return 1;
 				case 2:
@@ -56,6 +55,8 @@ public class Administrator {
 					System.out.println("Please specify the bookId");
 					bookId = Integer.parseInt(scan.nextLine());
 					LibraryBookLoan update = new LibraryBookLoan(bookId, branchId, cardNo, null, null, null);
+					System.out.println("Please enter a new duedate in format yyyy-mm-dd");
+					params[0] = scan.nextLine();
 					bookLoan.update(update, params);
 					return 1;
 				case 7:
