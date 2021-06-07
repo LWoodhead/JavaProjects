@@ -220,7 +220,7 @@ public class Administrator {
 					genreId = Integer.parseInt(scan.nextLine());
 					System.out.println("Enter Book ID");
 					bookId = Integer.parseInt(scan.nextLine());
-					genreDAO.linkTables(bookId,genreId);
+					genreDAO.linkTables(genreId,bookId);
 				default:
 					System.out.println("Enter one through five");
 					break;
