@@ -37,7 +37,7 @@ public class LibraryBookDAO implements LibraryDAO<LibraryBook>{
 		for(LibraryBook book: d.getAll()) {
 			System.out.println(book.toString());
 		}
-		
+		d.printIdGenreTitleAuthor();
 	}
 
 	@Override
@@ -76,6 +76,28 @@ public class LibraryBookDAO implements LibraryDAO<LibraryBook>{
 		pstmt.setInt(1, book.getBookId());
 		pstmt.executeUpdate(); 
 		
+	}
+	
+	public void linkTables(int bookId,int authorId) throws ClassNotFoundException, SQLException {
+		PreparedStatement pstmt = getConnection().prepareStatement("insert into tbl_book_authors (bookId,authorId) values (?,?)");
+		pstmt.setInt(1, bookId);
+		pstmt.setInt(2, authorId);
+		pstmt.executeUpdate(); 
+	}
+	
+	public void printIdGenreTitleAuthor() throws ClassNotFoundException, SQLException {
+		PreparedStatement pstmt = getConnection().prepareStatement("select a.authorId as authorId, bo.bookId as bookId, bo.title as title, \r\n"
+				+ "pu.publisherName as publisher, g.genre_name as genre from tbl_author a\r\n"
+				+ "join tbl_book_authors ba on ba.authorId = a.authorId\r\n"
+				+ "join tbl_book bo on bo.bookId = ba.bookId\r\n"
+				+ "join tbl_publisher pu on pu.publisherId = bo.pubId\r\n"
+				+ "join tbl_book_genres bg on bg.bookId = bo.bookId\r\n"
+				+ "join tbl_genre g on g.genre_id = bg.genre_id;");
+		ResultSet rs = pstmt.executeQuery(); 
+		while(rs.next()) {
+			System.out.println("Author ID: " + rs.getInt("authorId") + " Book ID: " + rs.getInt("bookId") 
+			+ " Title: " + rs.getString("title")+ " Publisher: " + rs.getString("publisher") + " Genre: " +  rs.getString("genre"));
+		}
 	}
 
 }

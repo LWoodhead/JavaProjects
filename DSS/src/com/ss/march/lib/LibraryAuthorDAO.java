@@ -13,7 +13,7 @@ import java.util.List;
  * @author lukej
  *
  */
-public class LibraryAuthorDOA implements LibraryDAO<LibraryAuthor> {
+public class LibraryAuthorDAO implements LibraryDAO<LibraryAuthor> {
 
 	/**
 	 * @param args
@@ -21,7 +21,7 @@ public class LibraryAuthorDOA implements LibraryDAO<LibraryAuthor> {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		LibraryAuthorDOA d = new LibraryAuthorDOA();
+		LibraryAuthorDAO d = new LibraryAuthorDAO();
 		for(LibraryAuthor t: d.getAll()) {
 			System.out.println(t.toString());
 		}

@@ -190,7 +190,7 @@ public class Librarian {
 	}
 	public int addBook() throws ClassNotFoundException, SQLException {
 		Scanner scan = new Scanner(System.in);
-		LibraryBookAuthorDOA bookAuthorDAO = new LibraryBookAuthorDOA();
+		LibraryBookAuthorDAO bookAuthorDAO = new LibraryBookAuthorDAO();
 		LibraryBookCopiesDAO bookCopiesDOA = new LibraryBookCopiesDAO();
 		List<LibraryBookAuthor> books = bookAuthorDAO.getAll();
 		int numBooks = 0;
