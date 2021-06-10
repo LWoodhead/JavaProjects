@@ -21,6 +21,8 @@ public class SingletonFix {
 	
 	private static SingletonFix instance = null;
 	
+	
+	
 	public static SingletonFix getInstance() {
 		if(instance == null) {
 			synchronized(instance){
