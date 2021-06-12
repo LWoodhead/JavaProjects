@@ -26,11 +26,11 @@ public class BookingDAO extends TemplateDAO<Booking>{
 	}
 	
 	public void removeBooking(Booking booking) throws ClassNotFoundException, SQLException {
-		delete("delete from booking where id = ?",new Object[] {booking.getBookingId()});
+		save("delete from booking where id = ?",new Object[] {booking.getBookingId()});
 	}
 	
 	public void updateBooking(Booking booking) throws ClassNotFoundException, SQLException {
-		update("update booking set is_active = ?, confirmation_code = ? where id = ?",new Object[] {booking.getIsActive(),booking.getConfirmationCode(),
+		save("update booking set is_active = ?, confirmation_code = ? where id = ?",new Object[] {booking.getIsActive(),booking.getConfirmationCode(),
 				booking.getBookingId()});
 	}
 	

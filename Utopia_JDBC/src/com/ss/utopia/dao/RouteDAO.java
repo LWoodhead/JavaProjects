@@ -26,11 +26,11 @@ public class RouteDAO extends TemplateDAO<Route>{
 	}
 	
 	public void removeRoute(Route route) throws ClassNotFoundException, SQLException {
-		delete("delete from route where id = ?",new Object[] {route.getRouteId()});
+		save("delete from route where id = ?",new Object[] {route.getRouteId()});
 	}
 	
 	public void updateRoute(Route route) throws ClassNotFoundException, SQLException {
-		update("update route set origin_id = ?, destination_id = where id = ?",new Object[] {route.getOriginAirport(),route.getDestinationAirport(),route.getRouteId()});
+		save("update route set origin_id = ?, destination_id = where id = ?",new Object[] {route.getOriginAirport(),route.getDestinationAirport(),route.getRouteId()});
 	}
 	
 	public List<Route> readAllRoutes() throws ClassNotFoundException, SQLException {

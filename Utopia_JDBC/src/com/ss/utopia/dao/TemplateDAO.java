@@ -47,31 +47,5 @@ public abstract class TemplateDAO<T> {
 		pstmt.executeQuery();
 	}
 	
-	void update(String query,Object[] vals) throws ClassNotFoundException, SQLException{
-		PreparedStatement pstmt = conn.prepareStatement(query);
-		//Set all members that need to be set
-		if(vals != null) {
-			int count = 1;
-			for(Object val : vals) {
-				pstmt.setObject(count, val);
-				count++;
-			}
-		}
-		pstmt.executeQuery();
-	}
-	
-	void delete(String query,Object[] vals) throws ClassNotFoundException, SQLException{
-		PreparedStatement pstmt = conn.prepareStatement(query);
-		//Set all members that need to be set
-		if(vals != null) {
-			int count = 1;
-			for(Object val : vals) {
-				pstmt.setObject(count, val);
-				count++;
-			}
-		}
-		pstmt.executeQuery();
-	}
-	
 	public abstract List<T> extractData(ResultSet rs) throws ClassNotFoundException, SQLException;		
 }

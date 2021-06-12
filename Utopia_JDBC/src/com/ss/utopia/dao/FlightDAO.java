@@ -28,12 +28,12 @@ public class FlightDAO extends TemplateDAO<Flight>{
 	}
 	
 	public void removeFlight(Flight flight) throws ClassNotFoundException, SQLException {
-		delete("delete from flight where id = ?",new Object[] {flight.getFlightId()});
+		save("delete from flight where id = ?",new Object[] {flight.getFlightId()});
 		
 	}
 	
 	public void updateFlight(Flight flight) throws ClassNotFoundException, SQLException {
-		update("update flight set route_id = ?, airplane_id = ?, departure_time = ?, reserved_seats = ?, seat_price = ? where id = ?",
+		save("update flight set route_id = ?, airplane_id = ?, departure_time = ?, reserved_seats = ?, seat_price = ? where id = ?",
 				new Object[] {flight.getRouteId(),flight.getAirplaneId(),flight.getDepartureTime(),flight.getReservedSeats(),
 						flight.getSeatPrice(),flight.getFlightId()});
 	}

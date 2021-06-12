@@ -26,11 +26,11 @@ public class AirplaneDAO extends TemplateDAO<Airplane>{
 	}
 	
 	public void removeAirplane(Airplane airplane) throws ClassNotFoundException, SQLException {
-		delete("delete from airplane where id = ?",new Object[] {airplane.getAirplaneId()});
+		save("delete from airplane where id = ?",new Object[] {airplane.getAirplaneId()});
 	}
 	
 	public void updateAirplane(Airplane airplane) throws ClassNotFoundException, SQLException {
-		update("update airplane set type_id = ? where id = ?",new Object[] {airplane.getTypeId(),airplane.getAirplaneId()});
+		save("update airplane set type_id = ? where id = ?",new Object[] {airplane.getTypeId(),airplane.getAirplaneId()});
 	}
 	
 	public List<Airplane> readAllAirplanes() throws ClassNotFoundException, SQLException {

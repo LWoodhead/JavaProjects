@@ -27,11 +27,11 @@ public class BookingPaymentDAO extends TemplateDAO<BookingPayment>{
 	}
 	
 	public void removeBookingPayment(BookingPayment bp) throws ClassNotFoundException, SQLException {
-		delete("delete from booking_payment where booking_id = ?",new Object[] {bp.getBookingId()});
+		save("delete from booking_payment where booking_id = ?",new Object[] {bp.getBookingId()});
 	}
 	
 	public void updateBookingPayment(BookingPayment bp) throws ClassNotFoundException, SQLException {
-		update("update booking_payment set stripe_id = ?, refunded = ? where booking_id = ?",
+		save("update booking_payment set stripe_id = ?, refunded = ? where booking_id = ?",
 				new Object[] {bp.getStripeId(),bp.getRefunded(),bp.getBookingId()});
 	}
 	

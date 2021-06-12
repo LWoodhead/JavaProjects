@@ -27,11 +27,11 @@ public class AirportDAO extends TemplateDAO<Airport> {
 	}
 	
 	public void removeAirport(Airport airport) throws ClassNotFoundException, SQLException {
-		delete("delete from airport where iata_id = ?",new Object[] {airport.getAiportCode()});
+		save("delete from airport where iata_id = ?",new Object[] {airport.getAiportCode()});
 	}
 	
 	public void updateAirport(Airport airport) throws ClassNotFoundException, SQLException {
-		update("update airport set iata_id = ?, city = ? where iata_id = ?",new Object[] {airport.getAiportCode(),airport.getCity()});
+		save("update airport set iata_id = ?, city = ? where iata_id = ?",new Object[] {airport.getAiportCode(),airport.getCity()});
 	}
 	
 	public List<Airport> readAllAirports() throws ClassNotFoundException, SQLException {

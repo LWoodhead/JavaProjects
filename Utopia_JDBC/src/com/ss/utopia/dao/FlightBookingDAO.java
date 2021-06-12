@@ -26,11 +26,11 @@ public class FlightBookingDAO extends TemplateDAO<FlightBooking>{
 	}
 	
 	public void removeFlightBooking(FlightBooking fb) throws ClassNotFoundException, SQLException {
-		delete("delete from flight_bookings where flight_id = ? and booking_id = ?",new Object[] {fb.getFlightId(),fb.getBookingId()});
+		save("delete from flight_bookings where flight_id = ? and booking_id = ?",new Object[] {fb.getFlightId(),fb.getBookingId()});
 	}
 	
 	public void updateFlightBooking(FlightBooking fb) throws ClassNotFoundException, SQLException {
-		update("update flight_bookings set flight_id = ? , booking_id = ? where flight_id = ? and booking_id = ?",
+		save("update flight_bookings set flight_id = ? , booking_id = ? where flight_id = ? and booking_id = ?",
 				new Object[] {fb.getFlightId(),fb.getBookingId(),fb.getFlightId(),fb.getBookingId()});
 	}
 	
