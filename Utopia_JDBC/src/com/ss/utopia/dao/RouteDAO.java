@@ -22,7 +22,13 @@ public class RouteDAO extends TemplateDAO<Route>{
 	}
 
 	public void addRoute(Route route) throws ClassNotFoundException, SQLException {
-		save("insert into route(origin_id,destination_id) values (?,?)",new Object[] {route.getOriginAirport(),route.getDestinationAirport()});
+		save("insert into route(origin_id,destination_id) values (?,?)",
+				new Object[] {route.getOriginAirport(),route.getDestinationAirport()});
+	}
+	
+	public int addRouteWithPk(Route route) throws ClassNotFoundException, SQLException {
+		return saveWithPk("insert into route(origin_id,destination_id) values (?,?)",
+				new Object[] {route.getOriginAirport(),route.getDestinationAirport()});
 	}
 	
 	public void removeRoute(Route route) throws ClassNotFoundException, SQLException {
@@ -30,11 +36,12 @@ public class RouteDAO extends TemplateDAO<Route>{
 	}
 	
 	public void updateRoute(Route route) throws ClassNotFoundException, SQLException {
-		save("update route set origin_id = ?, destination_id = where id = ?",new Object[] {route.getOriginAirport(),route.getDestinationAirport(),route.getRouteId()});
+		save("update route set origin_id = ?, destination_id = where id = ?",
+				new Object[] {route.getOriginAirport(),route.getDestinationAirport(),route.getRouteId()});
 	}
 	
 	public List<Route> readAllRoutes() throws ClassNotFoundException, SQLException {
-		return read("select * from airport",null);
+		return read("select * from route",null);
 	}
 	
 	@Override

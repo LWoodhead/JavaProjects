@@ -24,15 +24,15 @@ public class AirportDAO extends TemplateDAO<Airport> {
 
 	public void addAirport(Airport airport) throws ClassNotFoundException, SQLException {
 		save("insert into airport (iata_id,city) values (?,?) on duplicate key update iata_id = iata_id",
-				new Object[] {airport.getAiportCode(),airport.getCity()});
+				new Object[] {airport.getAirportCode(),airport.getCity()});
 	}
 	
 	public void removeAirport(Airport airport) throws ClassNotFoundException, SQLException {
-		save("delete from airport where iata_id = ?",new Object[] {airport.getAiportCode()});
+		save("delete from airport where iata_id = ?",new Object[] {airport.getAirportCode()});
 	}
 	
 	public void updateAirport(Airport airport) throws ClassNotFoundException, SQLException {
-		save("update airport set iata_id = ?, city = ? where iata_id = ?",new Object[] {airport.getAiportCode(),airport.getCity()});
+		save("update airport set iata_id = ?, city = ? where iata_id = ?",new Object[] {airport.getAirportCode(),airport.getCity(),airport.getAirportCode()});
 	}
 	
 	public List<Airport> readAllAirports() throws ClassNotFoundException, SQLException {

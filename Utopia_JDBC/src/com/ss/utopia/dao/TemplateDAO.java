@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public abstract class TemplateDAO<T> {
@@ -41,6 +42,24 @@ public abstract class TemplateDAO<T> {
 			}
 		}
 		pstmt.executeUpdate(); 
+	}
+	
+	public Integer saveWithPk(String query,Object[] vals) throws ClassNotFoundException, SQLException{
+		PreparedStatement pstmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+		//Set all members that need to be set
+		if(vals != null) {
+			int count = 1;
+			for(Object val : vals) {
+				pstmt.setObject(count, val);
+				count++;
+			}
+		}
+		pstmt.executeUpdate();
+		ResultSet rs = pstmt.getGeneratedKeys();
+		if(rs.next()) {
+			return rs.getInt(1);
+		}
+		return null;
 	}
 	
 	public abstract List<T> extractData(ResultSet rs) throws ClassNotFoundException, SQLException;		

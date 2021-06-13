@@ -22,8 +22,8 @@ public class FlightDAO extends TemplateDAO<Flight>{
 	}
 
 	public void addFlight(Flight flight) throws ClassNotFoundException, SQLException {
-		save("insert into flight(id,route_id,airplane_id,departure_time,reserved_seats,seat_price) values (?,?,?,?,?,?)",
-				new Object[] {flight.getFlightId(),flight.getRouteId(),flight.getAirplaneId(),flight.getDepartureTime(),
+		save("insert into flight(route_id,airplane_id,departure_time,reserved_seats,seat_price) values (?,?,?,?,?)",
+				new Object[] {flight.getRouteId(),flight.getAirplaneId(),flight.getDepartureTime(),
 						flight.getReservedSeats(),flight.getSeatPrice()});
 	}
 	
