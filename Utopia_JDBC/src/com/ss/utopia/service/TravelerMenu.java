@@ -13,6 +13,7 @@ import com.ss.utopia.domain.Airplane;
 import com.ss.utopia.domain.AirplaneType;
 import com.ss.utopia.domain.Booking;
 import com.ss.utopia.domain.Flight;
+import com.ss.utopia.domain.FlightBooking;
 import com.ss.utopia.domain.Passenger;
 import com.ss.utopia.domain.Route;
 import com.ss.utopia.domain.User;
@@ -52,7 +53,7 @@ public class TravelerMenu {
 				bookTicket();
 				return 1;
 			case 2:
-				//Call function
+				cancelTrip();
 				return 1;
 			case 3:
 				return -1;
@@ -126,13 +127,57 @@ public class TravelerMenu {
 		
 	}
 	
-	public void cancelTrip() {
+	public void cancelTrip() throws ClassNotFoundException, SQLException {
+		int count = 0,input;
 		TravelerService ts = new TravelerService();
-		List<Booking> bookings = ts.re;
-		List<BookingUser> bookUser
+		List<Booking> bookings = ts.readUserBookings(currentUser);
+		List<FlightBooking> fbooks = ts.readFlightBooking();
+		List<Route> routes = ts.readRoute();
+		List<Flight> flights = ts.readFlight();
+		printBookedFlights(bookings,fbooks,flights,routes);
+		System.out.println("Choose A Booking to Cancel");
+		input = takeInputInt(bookings.size()+1);
+		if(input == bookings.size()+1) {
+			return;
+		}else {
+			ts.cancelBooking(bookings.get(input-1));
+		}
 	}
 	
-	//Helpers 
+	//Helpers
+	
+	private void printBookedFlights(List<Booking> bookings,List<FlightBooking> fbooks, List<Flight> flights, List<Route> routes) {
+		int count = 0;
+		boolean found;
+		for(Booking b: bookings) {
+			found = false;
+			for(FlightBooking fb: fbooks) {
+				if(found == true) {
+					break;
+				}
+				if(b.getBookingId() == fb.getBookingId()) {
+					for(Flight f: flights) {
+						if(found == true) {
+							break;
+						}
+						if(fb.getFlightId() == f.getFlightId()) {
+							for(Route r: routes) {
+								if(r.getRouteId() == f.getRouteId()) {
+									System.out.println((count+1) + ") Flight " + f.getFlightId() + " " + r.getOriginAirport() + " --> " + r.getDestinationAirport()
+									+ " Departing " + f.getDepartureTime());
+									count++;
+									found = true;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		System.out.println((count+1) + ") Quit to Previous");
+	}
+	
 	private int[] printFlightPaths(List<Flight> flights, List<Route> routes, List<Airplane> planes, List<AirplaneType> types) {
 		int count = 1;
 		boolean found;

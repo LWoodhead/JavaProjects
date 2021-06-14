@@ -332,6 +332,7 @@ public class AdminService {
 			FlightDAO flightDAO = new FlightDAO(conn);
 			flightDAO.addFlight(flightToAdd);
 			conn.commit();
+			System.out.println("Flight Added");
 		}catch(Exception e) {
 			conn.rollback();
 			System.out.println("Flight Unable to be Added");
@@ -348,14 +349,18 @@ public class AdminService {
 			conn = cUtil.getConnection();
 			//If booking is null we need to add a new booking
 			if(booking != null) {
+				//Save booking
 				BookingDAO bdao = new BookingDAO(conn);
 				bookingId = bdao.addBookingWithPK(booking);
+				//Save flight booking
 				FlightBookingDAO fbdao = new FlightBookingDAO(conn);
 				FlightBooking fb = new FlightBooking(flight.getFlightId(), bookingId);
 				fbdao.addFlightBooking(fb);
+				//Save passenger
 				pass.setBookingId(bookingId);
 				PassengerDAO pdao = new PassengerDAO(conn);
 				pdao.addPassenger(pass);
+				//Save booking payment
 				BookingPaymentDAO bpdao = new BookingPaymentDAO(conn);
 				bpdao.addBookingPayment(new BookingPayment(bookingId,"stripe id",0));
 			//Otherwise all that is needed is to save the passenger

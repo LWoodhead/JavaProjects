@@ -151,7 +151,7 @@ public class AdminMenu {
 		float seatPrice = 0;
 		Date departureTime = null;
 		List<Airport> airports = null;
-		System.out.println("1) Add \n2) Update \n3) Remove \n4) Read \n5) Quit to Previous");
+		System.out.println("1) Add Booking and Passenger\n2) Update Booking and Passenger\n3) Remove Booking and Passenger\n4) Read Booking and Passenger\n5) Quit to Previous");
 		try {
 			input = Integer.parseInt(scan.nextLine());
 			switch(input) {
