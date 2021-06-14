@@ -14,6 +14,7 @@ import com.ss.utopia.domain.Airplane;
 import com.ss.utopia.domain.AirplaneType;
 import com.ss.utopia.domain.Airport;
 import com.ss.utopia.domain.Booking;
+import com.ss.utopia.domain.BookingPayment;
 import com.ss.utopia.domain.Flight;
 import com.ss.utopia.domain.Passenger;
 import com.ss.utopia.domain.Route;
@@ -63,7 +64,7 @@ public class AdminMenu {
 						while(employeeCRUDMenu() != -1);
 						break;
 					case 7:
-						System.out.println("Choice");
+						tripCancelOverride();
 						break;
 					case 8:
 						return;
@@ -687,8 +688,37 @@ public class AdminMenu {
 	}
 	
 	public int tripCancelOverride() throws ClassNotFoundException, SQLException {
-		return 1;
+		int input,count;
+		Booking booking = null;
+		AdminService as = new AdminService();
+		List<Booking> bookings= as.readBooking();
+		for(int i=0;i<bookings.size();i++) {
+			if(bookings.get(i).getIsActive() == 0) {
+				bookings.remove(i);
+				i--;
+			}
+		}
+		count = printBookings(bookings);
+		System.out.println((count+1) +") To Cancel");
+		System.out.println("Enter A Booking to Refund");
+		input = takeInputInt(count+1);
+		if(input == count+1) {
+			return -1;
+		}
+		booking = bookings.get(input-1);
+		booking.setIsActive(0);
+		as.cancelTrip(booking);
+		return -1;
 	}
+	private int printBookings(List<Booking> bookings) {
+		int count = 0;
+		for(Booking b: bookings) {
+				System.out.println((count+1) + ") " + b.toString());
+				count++;
+		}
+		return count;
+	}
+	
 	//helpers for users methods
 	private int printUsers(List<User> users) {
 		int count = 0;

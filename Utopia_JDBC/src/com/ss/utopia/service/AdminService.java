@@ -9,6 +9,7 @@ import com.ss.utopia.dao.AirplaneDAO;
 import com.ss.utopia.dao.AirplaneTypeDAO;
 import com.ss.utopia.dao.AirportDAO;
 import com.ss.utopia.dao.BookingDAO;
+import com.ss.utopia.dao.BookingPaymentDAO;
 import com.ss.utopia.dao.FlightBookingDAO;
 import com.ss.utopia.dao.FlightDAO;
 import com.ss.utopia.dao.PassengerDAO;
@@ -18,6 +19,7 @@ import com.ss.utopia.domain.Airplane;
 import com.ss.utopia.domain.AirplaneType;
 import com.ss.utopia.domain.Airport;
 import com.ss.utopia.domain.Booking;
+import com.ss.utopia.domain.BookingPayment;
 import com.ss.utopia.domain.Flight;
 import com.ss.utopia.domain.FlightBooking;
 import com.ss.utopia.domain.Passenger;
@@ -354,6 +356,8 @@ public class AdminService {
 				pass.setBookingId(bookingId);
 				PassengerDAO pdao = new PassengerDAO(conn);
 				pdao.addPassenger(pass);
+				BookingPaymentDAO bpdao = new BookingPaymentDAO(conn);
+				bpdao.addBookingPayment(new BookingPayment(bookingId,"stripe id",0));
 			//Otherwise all that is needed is to save the passenger
 			}else{
 				PassengerDAO pdao = new PassengerDAO(conn);
@@ -464,6 +468,34 @@ public class AdminService {
 			conn.close();
 		}
 		return users;
+	}
+
+	public void cancelTrip(Booking booking) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = cUtil.getConnection();
+			BookingPaymentDAO bpdao = new BookingPaymentDAO(conn);
+			BookingPayment paymentUpdate = null;
+			List<BookingPayment> bookPay = bpdao.readAllBookingPayments();
+			for(BookingPayment bp : bookPay) {
+				if(bp.getBookingId() == booking.getBookingId());
+				paymentUpdate = bp;
+			}
+			if(paymentUpdate != null) {
+				paymentUpdate.setRefunded(1);
+				bpdao.updateBookingPayment(paymentUpdate);
+			}
+			BookingDAO bdao = new BookingDAO(conn);
+			bdao.updateBooking(booking);
+			conn.commit();
+			System.out.println("Booking Canceled");
+		}catch(Exception e) {
+			conn.rollback();
+			System.out.println("Unable to Cancel");
+			e.printStackTrace();
+		}finally {
+			conn.close();
+		}
 	}
 }
 

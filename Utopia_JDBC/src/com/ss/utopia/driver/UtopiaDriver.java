@@ -9,6 +9,7 @@ import java.util.List;
 import com.ss.utopia.domain.Airport;
 import com.ss.utopia.service.AdminMenu;
 import com.ss.utopia.service.AdminService;
+import com.ss.utopia.service.TravelerMenu;
 
 /**
  * @author lukej
@@ -23,6 +24,7 @@ public class UtopiaDriver {
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		AdminService as = new AdminService();
+		TravelerMenu tm = new TravelerMenu();
 		Airport air = new Airport("LAX","Los Angeles");
 		Airport air2 = new Airport("BOS","Boston");
 //		as.addAirport(air2);
@@ -32,6 +34,7 @@ public class UtopiaDriver {
 //			System.out.println(a.toString());
 //		}
 		AdminMenu am = new AdminMenu();
-		am.AdminMenuRunner();
+//		am.AdminMenuRunner();
+		tm.travelerMenuRunner();
 	}
 }
