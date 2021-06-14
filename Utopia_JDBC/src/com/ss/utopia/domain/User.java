@@ -117,6 +117,11 @@ public class User {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", roleId=" + roleId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", username=" + username + ", email=" + email + ", password=" + password + ", phone=" + phone + "]";
+	}
 	
 }

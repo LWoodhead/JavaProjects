@@ -23,7 +23,7 @@ public class UserDAO extends TemplateDAO<User>{
 
 	public void addUser(User user) throws ClassNotFoundException, SQLException {
 		save("insert into user (role_id,given_name,family_name,username,email,password,phone) values (?,?,?,?,?,?,?)",
-				new Object[] {user.getRoleId(),user.getFirstName(),user.getLastName(),user.getUsername(),user.getEmail(),user.hashCode(),user.getPhone()});
+				new Object[] {user.getRoleId(),user.getFirstName(),user.getLastName(),user.getUsername(),user.getEmail(),user.getPassword(),user.getPhone()});
 	}
 	
 	public void removeUser(User user) throws ClassNotFoundException, SQLException {
@@ -32,7 +32,7 @@ public class UserDAO extends TemplateDAO<User>{
 	
 	public void updateUser(User user) throws ClassNotFoundException, SQLException {
 		save("update user set role_id = ?,given_name = ?,family_name = ?,username = ?,email = ?,password = ?,phone = ? where id = ?",
-				new Object[] {user.getRoleId(),user.getFirstName(),user.getLastName(),user.getUsername(),user.getEmail(),user.hashCode(),user.getPhone(),user.getUserId()});
+				new Object[] {user.getRoleId(),user.getFirstName(),user.getLastName(),user.getUsername(),user.getEmail(),user.getPassword(),user.getPhone(),user.getUserId()});
 	}
 	
 	public List<User> readAllUsers() throws ClassNotFoundException, SQLException {

@@ -22,7 +22,8 @@ public class BookingDAO extends TemplateDAO<Booking>{
 	}
 	
 	public void addBooking(Booking booking) throws ClassNotFoundException, SQLException {
-		save("insert into booking (is_active,confirmation_code) values (?,?)",new Object[] {booking.getIsActive(),booking.getConfirmationCode()});
+		save("insert into booking (is_active,confirmation_code) values (?,?)",
+				new Object[] {booking.getIsActive(),booking.getConfirmationCode()});
 	}
 	
 	public void removeBooking(Booking booking) throws ClassNotFoundException, SQLException {
@@ -30,7 +31,8 @@ public class BookingDAO extends TemplateDAO<Booking>{
 	}
 	
 	public void updateBooking(Booking booking) throws ClassNotFoundException, SQLException {
-		save("update booking set is_active = ?, confirmation_code = ? where id = ?",new Object[] {booking.getIsActive(),booking.getConfirmationCode(),
+		save("update booking set is_active = ?, confirmation_code = ? where id = ?",
+				new Object[] {booking.getIsActive(),booking.getConfirmationCode(),
 				booking.getBookingId()});
 	}
 	
@@ -38,10 +40,16 @@ public class BookingDAO extends TemplateDAO<Booking>{
 		return read("select * from booking",null);
 	}
 	
+	public int addBookingWithPK(Booking booking) throws ClassNotFoundException, SQLException {
+		return saveWithPk("insert into booking (is_active,confirmation_code) values (?,?)",
+				new Object[] {booking.getIsActive(),booking.getConfirmationCode()});
+	}
+	
 	@Override
 	public List<Booking> extractData(ResultSet rs) throws ClassNotFoundException, SQLException {
 		List<Booking> all = new ArrayList<>();
 		while(rs.next()) {
+			all.add(new Booking(rs.getInt("id"),rs.getInt("is_active"),rs.getString("confirmation_code")));
 		}
 		return all;
 	}
