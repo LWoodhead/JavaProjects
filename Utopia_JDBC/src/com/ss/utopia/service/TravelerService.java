@@ -45,8 +45,27 @@ public class TravelerService {
 			booking.setIsActive(0);
 			udao.updateBooking(booking);
 			BookingPaymentDAO bpdao = new BookingPaymentDAO(conn);
-			BookingPayment bookPay = new BookingPayment(null, "stripe id", 1);
+			BookingPayment bookPay = new BookingPayment(booking.getBookingId(), "stripe id", 1);
 			bpdao.updateBookingPayment(bookPay);
+			//Cancel reserved seat
+			FlightDAO fdao = new FlightDAO(conn);
+			FlightBookingDAO fbdao = new FlightBookingDAO(conn);
+			List<Flight> flights = fdao.readAllFlights();
+			List<FlightBooking> fbooks = fbdao.readAllFlightBookings();
+			Flight update = null;
+			for(FlightBooking fb : fbooks) {
+				if(fb.getBookingId() == booking.getBookingId()) {
+					for(Flight f : flights) {
+						if(f.getFlightId() == fb.getFlightId()) {
+							update = f;
+						}
+					}
+				}
+			}
+			if(update != null) {
+				update.setReservedSeats(update.getReservedSeats()+1);
+			}
+			fdao.updateFlight(update);
 			conn.commit();
 		}catch(Exception e) {
 			conn.rollback();
